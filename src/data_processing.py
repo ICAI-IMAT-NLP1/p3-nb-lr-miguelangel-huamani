@@ -22,11 +22,12 @@ def read_sentiment_examples(infile: str) -> List[SentimentExample]:
     examples: List[SentimentExample] = []
 
     with open(infile, "r") as file:
-        for line in file:
+        lines = file.readlines()
+        for line in lines:
             parts = line.strip().rsplit("\t", maxsplit=1)
             words = tokenize(parts[0])
             label = int(parts[1])  
-            words = [word.lower() for word in words]
+            #words = [word for word in words]
             examples.append(SentimentExample(words, label))
 
     return examples
@@ -49,7 +50,7 @@ def build_vocab(examples: List[SentimentExample]) -> Dict[str, int]:
     unique_words = set()
 
     for example in examples:
-        unique_words.update(example.words)
+        unique_words.update(word.lower() for word in example.words)
 
     print(unique_words)
     print(type(unique_words))
