@@ -44,14 +44,7 @@ class LogisticRegression:
 
         for epoch in range(epochs):
             predictions = self.sigmoid(features_plus_one @ self.weights)
-            print(predictions)
-            print(predictions.dtype)
-            print(labels)
-            print(labels.dtype)
-            loss = self.binary_cross_entropy_loss(predictions,labels)
-
-            print(f"Loss in epoch {epoch}: ", loss.item())
-
+            
             weight_gradient = (features.T @ (predictions - labels)) / n_inputs
             bias_gradient = torch.sum(predictions - labels) / n_inputs
 
@@ -153,11 +146,9 @@ class LogisticRegression:
         ce_loss: torch.Tensor = None
 
         n = targets.size(0)
-        print(n)
+
         loss = targets * torch.log(predictions) + (1-targets) * torch.log(1-predictions)
-        print(loss)
-        total_loss = loss.sum(dim=0)
-        print(total_loss)
+        total_loss = loss.sum()
         ce_loss = - total_loss / n    # Average Loss
 
         return ce_loss
